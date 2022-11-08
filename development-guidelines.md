@@ -94,16 +94,16 @@ Maximum Synchronous Execution Time | Synchronous Workflows are those run through
 RAM / Available Memory | Workflows for paid customers execute in a 1GB execution environment.  Free customers execute in a 256MB environment.  You can see the memory size in the debug pane when you manually run a workflow in the editor. As each action in a workflow is additative, and actions cannot be dropped, the memory can be quickly exhausted when consuming large (typically file based payloads)  |  The integration servers have ~14GB of RAM available to them, which along with streaming and FlatFile parsing capabilities resulting in ability to support considerably larger file sizes when an integration is implemented correctly.
 
 
+### 2.1.5 Implementation recommendations
 
 
 
 
 
+## 2.2 API-First Integrations
 
-## 2.1.2 API-First Integrations
+## 2.3 Hybrid Integration
 
-## 2.1.3 Hybrid Integration
-
-## 2.1.4 Connector Development
+## 2.4 Connector Development
 
 
