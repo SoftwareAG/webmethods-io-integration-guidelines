@@ -1,0 +1,1 @@
+# webmethods-io-integration-guidelines
