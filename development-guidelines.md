@@ -88,22 +88,84 @@ Doctype Support | No | [Yes](https://docs.webmethods.io/integration/developer_gu
 ### 2.1.4 Workflow/FlowServices Performance Characteristics
 Item|Worflow|FlowServicve
 ---|---|---
-Integration Execution | When executed, workflows are queued, and then allocated to an execution environment when one is available.  Paid customers have dedicated queues and their own execution pool, where as Free customers ahre the queue/execution pool.  If the execution pool becomes exhausted, whilst we do scale up, you may see periods where a short wait may occur for an exection environment to become available or for the additional nodes to join the pool | FlowServices run in a multi-threaded server and immediately execute synchronously.  Flow services execute straight through and therefore provide significantly more performance than a workflow.  Multiple engines, also with scaling service the FlowService executions.
+Integration Execution & Scalability | When executed, workflows are queued, and then allocated to an execution environment when one is available.  Paid customers have dedicated queues and their own execution pool, where as free customers share the queue/execution pool.  If the execution pool becomes exhausted, whilst we do scale up, you may see periods where a short wait may occur for an exection environment to become available or for the additional nodes to join the pool | FlowServices run in a multi-threaded server and immediately execute synchronously.  Flow services execute straight through and therefore provide significantly more performance than a workflow.  Multiple engines, also with scaling service the FlowService executions.
 Maximum Asynchronous Execution Time | Asynchronous Workflows can run for a maximum of 30 minutes, with the maximum duration being configurable for each Workflow. Should there be a need for Workflowsto run for longer than 30 minutes will need to be executed across multiple engines, chained via invocations or messaging | A FlowService has no maximum execution time and can run for as long as is needed, however FlowServices are typically synchronous that can facilitate Asynchronous needs, via a HTTP call, or through the use of messaging.
 Maximum Synchronous Execution Time | Synchronous Workflows are those run through webHooks or via API calls with a return sync response.  These maintain an open connection between the invoker and the server until the workflow has fininshed or a timeout is reached.  This timeout can be from the workflow engine, or from the ingress layer and the maximum possible execution time is __XXX mins - replace here, add better definition of synchronuos also__ | FlowServices are syncrhonous integrations and as they are running in a multithreaded and scaled engine, these can run indefintely.  To avoid thread starvation, loops which could run indefinitely have a timeout set on them which cannot be altered.  This value is defaulted currently to 6 hours and cannot be changed.  These loops include repeat for count, while/do and do/until. 
 RAM / Available Memory | Workflows for paid customers execute in a 1GB execution environment.  Free customers execute in a 256MB environment.  You can see the memory size in the debug pane when you manually run a workflow in the editor. As each action in a workflow is additative, and actions cannot be dropped, the memory can be quickly exhausted when consuming large (typically file based payloads)  |  The integration servers have ~14GB of RAM available to them, which along with streaming and FlatFile parsing capabilities resulting in ability to support considerably larger file sizes when an integration is implemented correctly.
 
 
-### 2.1.5 Implementation recommendations
 
+### 2.1.5 Implementation recommendations and Patterns
+Bearing the above information in mind, it's important to understand when you should use workflows, when you should use FlowServices, and the interaction patterns between these integration types.
+<br><br>
+
+#### Workflows
+
+When to use Workflows
+
+* when *something* happens in System A, then do *something* in System B
+* If your need is for longer running __asynchronous__ integrations (up to 30 minutes) 
+* If you aim is for simple asynchronous __low throughput__ orchestration of __2 or 3 connectors__ and FlowServices together with __minimal transformation__ needs
+* When you want to use a connector currently not available in the FlowServices IDE
+* When you want to trigger an automation from a system connector
+
+
+When __NOT__ to use Workflows
+
+* If you have more than 15 to 20 actions in a workflow
+* If you're using lots of HTTP calls
+* You're only orchestrating flow services
+* If you're trying to write complex programmatic logic using workflow orchestration
+* If you're using lots of store actions to programmatically adjust data
+* When you have complex mapping needs
+* When you have more than one, or complex loops
+* If you expect realtime synchronous responses
+* If you have a high throughput, high performance requirement
+* If you're dealing with large volumes of data
+* If you're exposing this as a real-time synchronous API
+* If you're implementing integrations for B2B
+<br><br>
+
+#### FlowServices
+
+When  to use FlowServices
+
+* If your need is for __synchronous__ integrations
+* If you need high throughput, realtime and high performing integrations
+* If you have complex programmatic logic/decisional conditions
+* When your system has no standard APIs
+* You have complex mapping requirements
+* Need for many loops, nested, and/or different types
+* If you need to restructure the data, types, formats, etc
+* If you are processing large files or responses from systems
+* If you're working with B2B and need to parse/validate and consume/transform EDI and other B2B payloads
+* If you need to parse and transform otehr large 'flat-files', e.g, CSV, Fixed File format.
+* If you're combining SOAP APIs for real time data exposure
+* If you're combining REST APIs for real time data exposure
+
+
+<br>
+
+
+
+
+#### Pattern Examples
 
 
 
 
 ## 2.2 API-First Integrations
 
+contract...
+
 ## 2.3 Hybrid Integration
 
 ## 2.4 Connector Development
 
 
+
+
+
+---
+
+Consume a API vs expose an API
