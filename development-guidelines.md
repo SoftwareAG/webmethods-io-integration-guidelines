@@ -154,6 +154,30 @@ Bearing the above information in mind, it's important to understand when you sho
 
 <br>
 
+**Do's and Don'ts**
+
+* **FlowService**
+  * **Don't** invoke another FlowService to try and reuse integrations via HTTP - this results in significant overhead as you'll be routing out and into the platform again.  Instead think about integrations as Microservices, with replication rather than reuse, resulting in simpler and self contained deployments versus more complex dependency managed deployments that typically occur with an SOA style implementation.
+  * **Don't** over use the LogCustomMessage service - this adds input/output database overhead to your invocations and will result in slower performance - only use this for small amounts of data, and in exceptional scenarios
+  * **Don't** use For loop with a counter, rather use loop over a list, while/do do/until.  For loop with a counter currently has a significant performance penalty with a 1 second delay between each iteration
+  * **Don't** attempt to create/mimic stateful services through the use of storage services/etc.
+  * **Do** specify your service contract using constraints so you can easily validate the inputs/outputs.
+  * **Do** keep the pipeline clean as you go - this not only makes mapping simpler as there's much less to select, but also helps to keep the memory clean.
+  * **Do** consider error cases in particular on top-level FlowServices.  What happens if you try/catch, how do you signify to the platform/audit that a FlowService has failed, or a workflow thats invoked the FlowService.
+  * **Do** make sure your pipeline at the last step matches the output - specifically take note of arrays/document lists.  If you're returning a list with a single item, this should still be a list and not a single item, and could cause other issues with subsequent steps/calls.
+  * **Do** make sure and while/do do/until loop has a condition to exit that will fire.  Without this the FlowService will run for 6 hours before it times out (which equals 7200 transactions).  You can use CurrentNanoTime to make a time restricted while/do do/until loop if required to catch any accidental runs over a certain time period
+  * **Do** remember FlowServices can be recursive for complex requirements, but take care not to create a stack overflow error.
+* **Workflows**
+  * **Don't** create nested loops, or have more than 1 or 2 loops.  This will quickly result in memory issues
+  * **Don't** write extremely complex Node.JS actions - better to put this into a CLI connector.
+  * **Don't** loop through a list to find a specific value, rather use JSON Path action
+  * **Don't** abuse the store actions.  These are for very simple storage, not large or complex items that need ot be queried
+  * **Do** remember that transformers can work with lists, dates, etc.
+  * **Do** use other SaaS services, e.g. Azure DB / Amazon RDS for you own data storage needs
+  * **Do** remember that a workflow commits a messaging item off a queue as soon as the trigger is complete, meaning you must handle this condition if something fails, or stick to FlowServices for messaging.
+  * **Do** take care with email actions, there's more than one choice and each offers different capability, including SMTP, Send an Email, Office 365.
+  * **Do** try to use the accounts feature for secure storage of secrets where possible for username/passwords/keys/etc, rather than defaulting these in mapping statements. It's better to create a REST connector than use HTTP or Swagger/RAML actions for this reason.
+
 #### Patterns
 
 **Large File Handling**
@@ -209,8 +233,22 @@ The iterator rather than loading the file in memory will iterate through each re
 
 This allows you to read and process ANY file size through the FlatFile (FF) Connector, where you can fully configure delimeters, etc for any needs.
 
-Processing each line can be done in a called FlowService (to make editing easier), or can even be done through a messaging publish with a FlowService subscriber (or even a workflow). 
+Processing each line can be done in a called FlowService (to make editing easier), or can even be done through a messaging publish with a FlowService subscriber (or even a workflow).
 
+**Using FlowServices & Workflow Together**
+
+Transporting large data between workflows and FlowServices may also cause problems with the Workflow Engine, therefore if you do need to transport large data between them, there are a few implementation patterns you can use to do this
+
+1. **Use Messaging** - This option really depends on the file size.  Once you've downloaded and read the file, you can send the file data via a messaging call to a FlowService by publishing the content, then subscribe from a FlowService to process the whole message.  As a FlowService has more memory, it's easier to chunk/split and parse sections of the file.  In addition you can use a topic and have multiple processors of the data via messaging.
+2. **Use an Intermediary Store (e.g. AWS S3) -** Have a workflow trigger move a large file to an intermediary file store, e.g. downlaod a file from sharepoint and move to an AWS S3 location.  Once moved, you can pass the S3 location to a flowservice via a call, or via messaging if you're doing multiple files, please use queues and serialized subscribers if order is important.
+
+**Workflow - Transforming data**
+
+You can use a combination of a JSON Customizer as well as transformers to make some signficant changes to the data structures in a workflow, however you might find this easier to create a FlowService.
+
+**Workflow - Parallel Processing**
+
+Workflows do not have to be sequential - they can have parallel execution threads allowing more than one action to run concurrently.  Be cautious using these and remain concious of error handling in these scenarios.
 
 ---
 
@@ -232,7 +270,7 @@ APIs provided by webMethods.io Integration can be one of two types
 * REST - The more modern and now most commonly used type of API
 * SOAP - Historically popular, but usage has declined to the point where these are almost non-existant other than in legacy software that hasn't been updated.
 
-#### Creating a REST API from an Integration
+#### 2.2.1.1 Creating a REST API from an Integration
 
 A REST API makes use of HTTP verbs to provide data from server resources, typically implemented as follows:
 
@@ -294,11 +332,11 @@ Workflows in webMethods.io do not have an service contract, therefore to impleme
 * An API can have multiple resources if required.
 * The accept header can control the format of the API response, e.g. setting accept to Application/XML will cause the API to return the response as XML.  Similar for Application/JSON and text/html.
 
-#### Creating a SOAP API from an Integration
+#### 2.2.1.2 Creating a SOAP API from an Integration
 
 This follows a similar process to the REST API, however due to the tighter requirement for a SOAP service on the input/output specification ONLY FlowServices can be used to provide a SOAP API.
 
-#### Securing APIs.
+#### 2.2.1.3 Securing APIs.
 
 The APIs (and descriptors) are only accessible by default via HTTP Basic Authentication and requires an iPaaS user credential to be provided that has execute permissions on the the project where the API exists.
 
@@ -323,8 +361,64 @@ This option allows you to create an API that conforms to a specification - perha
 
 ## 2.3 Hybrid Integration
 
+Hybrid integration can be used to connect an on-premise/self-hosted execution environment, allowing FlowSerivces to be executed on that particular environment.
+
+FlowServices requiring Hybrid Integration can be developed using Software AG's designer tool, and then published ot the cloud to auto create a connector that allows this to be invoked.  This is a very powerful function for invoke existing integrations or running what can be very complex integrations close to a source system (e.g. a self-hosted database, or an SAP ERP).
+
+Please be aware routing to a hybrid integration is subject to latency and bandwidth restrictions from the cloud to wherever the hybrid end point is located.
+
+To minimize this, it's recommended to avoid making lots of repeated calls to a hybrid endpoint by creating a wrapper service in the self-hosted exection environment that collects a call from the cloud, makes multiple calls back to the source system, and then returns back to the cloud once ready.
+
+Please note also - hybrid integration calls have a maximum size limit of 50MB.
+
+
 ---
 
 ## 2.4 Connector Development
 
----
+### 2.4.1 REST Connector
+
+If you need to call a REST based system but there's no connector available, there are a few choices to implement this
+
+#### 2.4.1.1 HTTP Action in workflow
+
+This is not recommended to be used other than for quick tests/proof points.  Any secrets/etc have to be provided in the mapping, which makes this less secure.  If you do use this, please use the project parameters marking items as passwords were needed.  In addition, this action is only useful in this particular workflow so inhibits any reuse of the connector.
+
+#### 2.4.1.2 Swagger/RAML actions in workflow
+
+Like HTTP actions, this is also not recommened as has the same issues as the HTTP action.
+
+#### 2.4.1.3 REST Connector Creator
+
+The [REST connector creator](https://docs.webmethods.io/integration/connectors/connector-bundle/custom-con/) provides the facility to manually create a reusable connector scoped to the project that makes use of the account functionality to store secrets, as well as managing multiple auth types, headers, and much more.  This makes this a great choice for less technical people to create a REST connector in the UX.  Currently this does not support creation via an API specification.
+
+#### 2.4.1.4 Connector Builder - Node.JS CLI
+
+The [Node.JS CLI](https://docs.webmethods.io/integration/developer_guide/connector_builder/) allows a JavaScript developer to quickly create a connection from scratch, from an OpenAPI specification, or even from a Postman collection, as well as implementing any auth scheme required.  These connectors can be installed into any tenant and deployed from one tenant to another.
+
+Please note, you can override a connector version, however if you change the connector interface, you will need to re-link/map this into the workflow again.  As such you can deploy the connector at the same version it you've not change the interface or only added new functions, however you should increment the version is you do change the interface.
+
+Also note, that Node.JS CLI connectors can only be used in the Workflow currenly.
+
+#### **2.4.1.5 Connector Builder - Cloudstreams**
+
+The [webMethods.io Connector Builder](https://tech.forums.softwareag.com/t/webmethods-io-connector-builder/240109) can be used to programmatically create REST connectors using Software AG's FlowServices and/or Java using multiple authentication options, with complex knowledge.  These can also be created from REST Specifications (e.g. openapi).
+
+Cloudstreams based connectors can be used both in Flow and Workflow, however stream types are only supported within a FlowService.
+
+### 2.4.2. SOAP Connector
+
+Like REST connectors, SOAP connectors can be created both in the UX, and via  the webMethods.io Connector Builder through Cloudstreams
+
+### 2.4.3. Database Connector
+
+The database connector allows you to utilize databases for queries/stored procedure calls, and modifications to table data.  This is a power function available to both Workflow and FlowServices, however please remember that
+
+1. By default, transactions are implicitly managed, however, self managed transasctionality is available in a FlowService.
+2. Your database needs to be accessible from Software AG's cloud environment.  Please proceed with caution if you do this to ensure your database is not open to unauthorized users.
+3. As you'll be routing to your database from the cloud, please try to utilize the database correctly.  Do not make multiple calls and service logic if a SQL query can encompass all this.
+
+### 2.4.4. FlatFile Connector
+
+1. This can be utlized either by creating a flat file defition, or directly from within a FlowService without a defintion being created.
+2. Large files (>200MB) will cause issues and will need to use the iterator to be processed
