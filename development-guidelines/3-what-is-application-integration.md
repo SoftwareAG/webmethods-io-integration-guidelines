@@ -1,4 +1,4 @@
-# What is Appication Integration?
+# 3 What is Appication Integration?
 
 Gartner defines application integration as:
 
