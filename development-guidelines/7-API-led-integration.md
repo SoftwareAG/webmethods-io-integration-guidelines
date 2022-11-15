@@ -1,4 +1,4 @@
-# 7 API-Led Integration {7}
+# 7 API-Led Integration
 
 webMethods.io EiPaaS supports a wide range of integration approaches and patterns, one of which is API-Led Integration, or API-Led Connectivity.  Many organizations start with the integration part of the iPaaS, but over time, might add B2B or API Management to support their needs / digital transformation initiaitves, and an iPaaS lends itself well to this approach as the components are all part of one wider platform.
 
@@ -14,9 +14,9 @@ APIs provided by webMethods.io Integration can be one of two types
 * REST - The more modern and now most commonly used type of API
 * SOAP - Historically popular, but usage has declined to the point where these are almost non-existant other than in legacy software that hasn't been updated.
 
-## 7.1 Implementation (Integration) first API {7.1}
+## 7.1 Implementation (Integration) first API
 
-### 7.1.1 REST API {7.1.1}
+### 7.1.1 REST API
 
 A REST API makes use of HTTP verbs to provide data from server resources, typically implemented as follows:
 
@@ -78,11 +78,11 @@ Workflows in webMethods.io do not have an service contract, therefore to impleme
 * An API can have multiple resources if required.
 * The accept header can control the format of the API response, e.g. setting accept to Application/XML will cause the API to return the response as XML.  Similar for Application/JSON and text/html.
 
-### 7.1.2 SOAP API {7.1.2}
+### 7.1.2 SOAP API
 
 This follows a similar process to the REST API, however due to the tighter requirement for a SOAP service on the input/output specification ONLY FlowServices can be used to provide a SOAP API.
 
-## 7.2 Creation an Integration from an API Specification {7.2}
+## 7.2 Creation an Integration from an API Specification
 
 You can start an Integration from a REST API Specification - this will take the specification and generate the appropriate FlowServices with service contracts that represent the resources in the REST API.
 
@@ -90,7 +90,7 @@ Once these are generated, you can then proceed to provide the implementation usi
 
 This option allows you to create an API that conforms to a specification - perhaps your development processes first mean you create an API Specification, alternatively you might want to replace an existing API with an integration, and therefore want to assure that the specification exactly matches to avoid issues with consumers.
 
-## 7.3 Securing APIs. {7.3}
+## 7.3 Securing APIs.
 
 The APIs (and descriptors) are only accessible by default via HTTP Basic Authentication and requires an iPaaS user credential to be provided that has execute permissions on the the project where the API exists.
 

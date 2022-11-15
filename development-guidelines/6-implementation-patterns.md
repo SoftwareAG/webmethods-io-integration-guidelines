@@ -1,6 +1,6 @@
-# 6 Implementation Patterns {6}
+# 6 Implementation Patterns
 
-## **6.1 Large File Handling** {6.1}
+## **6.1 Large File Handling**
 
 It is impossible to state an exact size of a File that a workflow or FlowService can process as this depends on the constructs used within the integrations.  When handling large files, loading any large file into memory, parsing, converting, etc whatever technology is almost always likely to create an 'out of memory' issue.  You can witness this yourself simply trying to load a very large file into notepad in windows, which attempts to load the whole file into memory, unlike something like notepad++ which only retrieves segments of files you're viewing/working on.
 
@@ -55,17 +55,17 @@ This allows you to read and process ANY file size through the FlatFile (FF) Conn
 
 Processing each line can be done in a called FlowService (to make editing easier), or can even be done through a messaging publish with a FlowService subscriber (or even a workflow).
 
-## **6.2 Using FlowServices & Workflow Together** {6.2}
+## **6.2 Using FlowServices & Workflow Together**
 
 Transporting large data between workflows and FlowServices may also cause problems with the Workflow Engine, therefore if you do need to transport large data between them, there are a few implementation patterns you can use to do this
 
 1. **Use Messaging** - This option really depends on the file size.  Once you've downloaded and read the file, you can send the file data via a messaging call to a FlowService by publishing the content, then subscribe from a FlowService to process the whole message.  As a FlowService has more memory, it's easier to chunk/split and parse sections of the file.  In addition you can use a topic and have multiple processors of the data via messaging.
 2. **Use an Intermediary Store (e.g. AWS S3) -** Have a workflow trigger move a large file to an intermediary file store, e.g. downlaod a file from sharepoint and move to an AWS S3 location.  Once moved, you can pass the S3 location to a flowservice via a call, or via messaging if you're doing multiple files, please use queues and serialized subscribers if order is important.
 
-## **6.3 Workflow - Transforming data** {6.3}
+## **6.3 Workflow - Transforming data**
 
 You can use a combination of a JSON Customizer as well as transformers to make some signficant changes to the data structures in a workflow, however you might find this easier to create a FlowService.
 
-## **6.4 Workflow - Parallel Processing** {6.4}
+## **6.4 Workflow - Parallel Processing**
 
 Workflows do not have to be sequential - they can have parallel execution threads allowing more than one action to run concurrently.  Be cautious using these and remain concious of error handling in these scenarios.
