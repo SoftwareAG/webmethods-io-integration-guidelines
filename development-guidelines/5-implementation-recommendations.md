@@ -22,7 +22,7 @@
 * If you expect realtime synchronous responses
 * If you have a high throughput, high performance requirement
 * If you're dealing with large volumes of data
-* If you're exposing this as a real-time synchronous API
+* If you're exposing this as a real-time **synchronous** API
 * If you're implementing integrations for B2B
 
 ### 5.1.3 Workflow Do's and Don'ts

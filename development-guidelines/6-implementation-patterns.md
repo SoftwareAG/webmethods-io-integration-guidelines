@@ -39,7 +39,7 @@ If you need to transform a large data file, there are multiple ways to achieve t
 ### **FlowServices**
 
 FlowServices have ~14GB of RAM available which sounds a lot, however this can also be quickly consumed with large files.
-Consider an XML file, or a JSON file.  If this XML file has 1GB of data in it, and you want to put this into an XML DOM structure in memory, the memory consuption on this would be huge, easily more than 10 times the File size, which can quickly exhaust the available memory.
+Consider an XML file, or a JSON file.  If this XML file has 1GB of data in it, and you want to put this into an XML DOM structure in memory, the memory consumption on this would be huge, easily more than 10 times the File size, which can quickly exhaust the available memory.
 
 Working with FlowServices is no different.  If you create DocTypes/Document structures, and try to populate this with a large data set, this can quickly consume the memory on the environments, therefore alternate approaches need to be considered to parse and transform large files, including CSVs and/or fixed format files.
 
