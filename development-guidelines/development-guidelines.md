@@ -2,7 +2,9 @@
 
 This whitepaper provides information and guidelines for a webMethods.io integration developer, explaining the approaches, benefits and drawbacks on each approach, and provides some guidelines and recommendations as to which approach to pick and when, based on the functionality, and the skills of the person developing the integrations to integration applications.
 
-This white paper focuses on the EiPaaS and Hybrid styles of application integration using [webMethods.io Integration](https://www.softwareag.com/en_corporate/platform/integration-apis/api-integration-platform.html) providing some recommendations, approaches, patterns, and guidance on what and how to implement using Softare AG's EiPaaS.
+This white paper focuses on the EiPaaS<sup>[1](#EiPaaSs-1)</sup> and Hybrid styles of application integration using [webMethods.io Integration](https://www.softwareag.com/en_corporate/platform/integration-apis/api-integration-platform.html) providing some recommendations, approaches, patterns, and guidance on what and how to implement using Softare AG's EiPaaS.
+
+<a name="EiPaaSs-1">[1]</a>:Enterprise Integration Platform as a Service
 
 # 2 Contents
 
