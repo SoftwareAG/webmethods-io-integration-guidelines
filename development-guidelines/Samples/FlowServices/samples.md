@@ -8,7 +8,9 @@
 
 This performs a Three stage date validation to ensure a date of birth is valid.
 
-1. First it confirms whether the provided date in yyyy-MM-dd format is valid, for example:| **Valid** | **Invalid**                  |
+1. First it confirms whether the provided date in yyyy-MM-dd format is valid, for example:
+
+   | **Valid**       | **Invalid**                        |
    | --------------- | ---------------------------------- |
    | 2020-10-19      | 20th March 2020*(Invalid format)*  |
    | 2020-02-29      | 2019-02-31*(28 days in Feb 2019))* |
