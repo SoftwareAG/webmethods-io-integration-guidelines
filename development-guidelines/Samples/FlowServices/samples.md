@@ -2,7 +2,7 @@
 
 ## dateValidation
 
-**Download:** [Here](./dateValidation.zip)
+**Download:** [Here](https://github.com/SoftwareAG/webmethods-io-integration-guidelines/blob/main/development-guidelines/Samples/FlowServices/dateValidation.zip)
 
 **Description**
 
@@ -45,7 +45,7 @@ If the date format isn't valid, a number of different errors can be thrown from 
 
 ## Format UK Telephone Number
 
-**Download:** [Here](./formatUkTelephoneNumber.zip)
+**Download:** [Here](https://github.com/SoftwareAG/webmethods-io-integration-guidelines/blob/main/development-guidelines/Samples/FlowServices/formatUkTelephoneNumber.zip)
 
 **Description**
 
@@ -72,7 +72,7 @@ Provides a standardized output of a UK Telephone number, regardless of what form
 
 ## xmlString2jsonString.zip
 
-**Download:** [Here](./xmlString2jsonString.zip)
+**Download:** [Here](https://github.com/SoftwareAG/webmethods-io-integration-guidelines/blob/main/development-guidelines/Samples/FlowServices/xmlString2jsonString.zip)
 
 **Description**
 
@@ -95,7 +95,7 @@ Converts a string containing XML to a JSON String preserving array markers ( '['
 
 ## XMLStringtoWorkflowStructure.zip
 
-**Download:** [Here](./XMLStringToWorkflowStructure.zip)
+**Download:** [Here](https://github.com/SoftwareAG/webmethods-io-integration-guidelines/blob/main/development-guidelines/Samples/FlowServices/XMLStringToWorkflowStructure.zip)
 
 **Description**
 
@@ -118,7 +118,7 @@ Converts an XML string to a document structure that can be subsequently used in 
 
 ## htmlContentStream
 
-**Download:** [Here](./htmlContentStream.zip)
+**Download:** [Here](https://github.com/SoftwareAG/webmethods-io-integration-guidelines/blob/main/development-guidelines/Samples/FlowServices/htmlContentStream.zip)
 
 **Description**
 
@@ -140,7 +140,7 @@ Service that receives HTML content coming from a REST API post/put.
 
 ---
 
-**Download:** [Here](./FlatFile_Processing.zip)
+**Download:** [Here](https://github.com/SoftwareAG/webmethods-io-integration-guidelines/blob/main/development-guidelines/Samples/FlowServices/FlatFile_Processing.zip)
 
 **Description**
 
@@ -154,7 +154,7 @@ Please note also - tenants have a global timeout for While/do/until/repeat - def
 
 ## Date/Time to Epoch
 
-**Download:** [Here](./dateTimeToEpoch.zip)
+**Download:** [Here](https://github.com/SoftwareAG/webmethods-io-integration-guidelines/blob/main/development-guidelines/Samples/FlowServices/dateTimeToEpoch.zip)
 
 **Description:**
 
@@ -182,7 +182,7 @@ Converts a date time to epoch (millis) time
 
 ## Epoch DateTiime to Excel
 
-**Download:** [Here](./convertEpochDateToExcel.zip)
+**Download:** [Here](https://github.com/SoftwareAG/webmethods-io-integration-guidelines/blob/main/development-guidelines/Samples/FlowServices/convertEpochDateToExcel.zip)
 
 **Description:**
 
@@ -207,8 +207,8 @@ Converts an epoch time (millis) to an excel date value
 ---
 
 **Download:**
-[startTimer](./startTimer.zip)
-[stopTimer](./stopTimer.zip)
+[startTimer](https://github.com/SoftwareAG/webmethods-io-integration-guidelines/blob/main/development-guidelines/Samples/FlowServices/startTimer.zip)
+[stopTimer](https://github.com/SoftwareAG/webmethods-io-integration-guidelines/blob/main/development-guidelines/Samples/FlowServices/stopTimer.zip)
 
 **Description**
 
