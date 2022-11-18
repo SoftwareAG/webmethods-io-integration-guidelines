@@ -24,6 +24,7 @@ This white paper focuses on the EiPaaS and Hybrid styles of application integrat
 | 5.2.1 | [When to use FlowServices](5-implementation-recommendations.md)                 | Explains when you should consider using FlowServices                                                  |
 | 5.2.2 | [When NOT to use FlowServices](5-implementation-recommendations.md)             | Explains when you should NOT use FlowServices                                                         |
 | 5.2.3 | [FlowService Do&#39;s and Don&#39;ts](5-implementation-recommendations.md)      | Documents the Do's and Don'ts of FlowServices                                                         |
+| 5.2.4 | [FlowService Samples](5-implementation-recommendations.md)      | Sample FlowServices providing some different functions                                                         |
 | 6.    | [Implementation Patterns](6-implementation-patterns.md#6)                       | Provides some implementation patterns                                                                 |
 | 6.1   | [Large File Handling](6-implementation-patterns.md#6.1)                         | Describes problems and solutions to work with large files                                             |
 | 6.2   | [Using FlowServices &amp; Workflows Together](6-implementation-patterns.md#6.2) | Describes some approaches to use FlowServices & workflows together                                    |
@@ -43,3 +44,4 @@ This white paper focuses on the EiPaaS and Hybrid styles of application integrat
 | 9.4   | [FlatFile Connector](9-connector-development.md#9.4)                            | In UX configuration to parse fixed/delimited flat files                                               |
 | 9.5   | [OData Connector](9-connector-development.md#9.5)                               | In UX configuration to invoke OData APIs                                                              |
 | 9.6   | [Messaging/JMS Connector](9-connector-development.md#9.6)                       | in UX configuration to utilize JMS messaging providers                                                |
+
