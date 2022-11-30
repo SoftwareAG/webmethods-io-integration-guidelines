@@ -8,9 +8,7 @@
 
 This performs a Three stage date validation to ensure a date of birth is valid.
 
-1. First it confirms whether the provided date in yyyy-MM-dd format is valid, for example:
-
-   | **Valid**       | **Invalid**                        |
+1. First it confirms whether the provided date in yyyy-MM-dd format is valid, for example:| **Valid** | **Invalid**                  |
    | --------------- | ---------------------------------- |
    | 2020-10-19      | 20th March 2020*(Invalid format)*  |
    | 2020-02-29      | 2019-02-31*(28 days in Feb 2019))* |
@@ -213,7 +211,7 @@ Converts an epoch time (millis) to an excel date value
 **Description**
 
 Provides in FlowService nanosecond based timer for timing usages where required to help with long executions, etc.  This is provided by two flow services.  startTimer and StopTimer.
-This uses 
+This uses
 
 ### **Start Timer**
 
@@ -233,10 +231,10 @@ This uses
 
 **Input**
 
-| **Type** | **Name** | **Description**                                                | **Example** |
-| -------------- | -------------- | -------------------------------------------------------------------- | ----------------- |
-| startTime      | Long           | Output from the startTimer service (nanosecond timer)                | 3743784331581797  |
-| timerName      | String         | Descriptive name to attribute to the time for output                 | myTimer           |
+| **Type** | **Name** | **Description**                                               | **Example** |
+| -------------- | -------------- | ------------------------------------------------------------------- | ----------------- |
+| startTime      | Long           | Output from the startTimer service (nanosecond timer)               | 3743784331581797  |
+| timerName      | String         | Descriptive name to attribute to the time for output                | myTimer           |
 | doNotLog       | String         | If exists, will not log to LogCustomMessage (visible in monitoring) | false             |
 
 **Output**
@@ -244,3 +242,14 @@ This uses
 | **Type** | **Name** | **Description**                    | **Example** |
 | -------------- | -------------- | ---------------------------------------- | ----------------- |
 | Long           | startTime      | nanosecond time value when timer started | 3743784331581797  |
+
+### **XML to CSV**
+
+**Input**
+N/A
+
+**Output**
+
+| **Type** | **Name** | **Description**                    | **Example** |
+| -------------- | -------------- | ---------------------------------------- | ----------------- |
+| String         | csvString      | CSV Data | "TITLE","ARTIST","COUNTRY","COMPANY","PRICE","YEAR"                  |
