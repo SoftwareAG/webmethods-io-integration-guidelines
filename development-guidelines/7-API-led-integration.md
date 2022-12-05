@@ -53,6 +53,8 @@ Workflows in webMethods.io Integration do not have a service contract, therefore
 * There is no explicit typing on the REST API Service contract
 * There is no way to validate the inputs
 * There could be a wait for a workflow engine to execute the REST API request
+* The webhook URL is still available to call without going via the REST API
+* The webhook URL will have an additional (and likely different) security mechanism than the REST API.
 
  Therefore, if you want to expose APIs from webMethods.io Integration, the __recommended__ mechanism is to create a FlowService and expose this as a [REST API](https://docs.webmethods.io/integration/apis/rest_api_builder/#gsc.tab=0).  This recommendation is based on the following:
 
