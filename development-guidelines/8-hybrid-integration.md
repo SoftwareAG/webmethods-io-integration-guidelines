@@ -10,6 +10,6 @@ To minimize this, it's recommended to avoid making lots of repeated calls to a h
 
 Please note also - hybrid integration calls have a maximum size limit of 50MB.
 
-In order is send hybrid messages efficiently please consider to compress your payload instead of sending multi-byte XML as text. This allow faster (because smaller) data transfer as well as sending larger amounts of data. 
+To send hybrid messages efficiently, please consider compressing your payload instead of sending multi-byte XML as text. This allows faster (because smaller) data transfer as well as sending larger amounts of data.
 
-It's also recommended to check the size of the compressed object before sending to avoid you try to send a massage larger than the limits. 
+It's also recommended to check the size of the compressed object before sending to avoid trying to send a message larger than the limits.
