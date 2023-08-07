@@ -9,3 +9,7 @@ Please be aware that routing to a hybrid integration is subject to latency and b
 To minimize this, it's recommended to avoid making lots of repeated calls to a hybrid endpoint by creating a wrapper service in the self-hosted execution environment that collects a call from the cloud, makes multiple calls back to the source system, and then returns results to the cloud once ready.
 
 Please note also - hybrid integration calls have a maximum size limit of 50MB.
+
+To send hybrid messages efficiently, please consider compressing your payload instead of sending multi-byte XML as text. This allows faster (because smaller) data transfer as well as sending larger amounts of data.
+
+It's also recommended to check the size of the compressed object before sending to avoid trying to send a message larger than the limits.
